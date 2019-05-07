@@ -5,10 +5,14 @@ class GetTincDataJob < ApplicationJob
     nodes = get_nodes()
     update_nodes( nodes )
   end
+  
+  def tinc_cmd
+    Settings.tinc.cmd
+  end
 
   def get_nodes
     # Get available nodes
-    raw_nodes = %x(docker exec tinc tinc dump nodes).split("\n") rescue []
+    raw_nodes = %x(#{tinc_cmd} dump nodes).split("\n") rescue []
     nodes = {}
 
     raw_nodes.each do |node|
@@ -20,7 +24,7 @@ class GetTincDataJob < ApplicationJob
       }
 
       # Get node info
-      raw_node_info = %x(docker exec tinc tinc info #{node_name}).split("\n") rescue []
+      raw_node_info = %x(#{tinc_cmd} info #{node_name}).split("\n") rescue []
 
       raw_node_info.each do |param|
         info = param.split(":", 2).map{|el| el.strip}

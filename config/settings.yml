@@ -1,2 +1,2 @@
 tinc:
-  cmd: docker exec tinc tinc
+  cmd: sudo tinc -n dnsvnet 

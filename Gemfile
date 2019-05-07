@@ -1,5 +1,9 @@
 source 'https://rubygems.org'
 
+require 'rbconfig'
+if RbConfig::CONFIG['target_os'] =~ /(?i-mx:bsd|dragonfly)/
+   gem 'rb-kqueue', '>= 0.2'
+end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
